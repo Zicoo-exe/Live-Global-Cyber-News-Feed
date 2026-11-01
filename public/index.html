@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CYBERPULSE - Live Internet News & Cyber Crime Intelligence Radar. Real-time global cybersecurity threats, ransomware outbreaks, zero-day CVEs, and data breaches.">
+  <title>CYBERPULSE // Live Cyber Crime & Internet Threat Radar</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300ff9d'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.54-3.04 8.79-7 9.9-3.96-1.11-7-5.36-7-9.9V6.3l7-3.12zM11 7v6h2V7h-2zm0 8v2h2v-2h-2z'/></svg>">
+  
+  <!-- Google Fonts for High-Tech Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Background Grid & Glow Effects -->
+  <div class="cyber-bg-overlay" aria-hidden="true"></div>
+  <div class="cyber-scanline" aria-hidden="true"></div>
+
+  <!-- BREAKING NEWS TICKER -->
+  <aside class="breaking-ticker-bar" aria-label="Breaking Cyber Alerts">
+    <div class="ticker-badge">
+      <span class="pulse-dot red"></span>
+      <span class="ticker-label">BREAKING INTEL</span>
+    </div>
+    <div class="ticker-content" id="ticker-content">
+      <div class="ticker-scroll" id="ticker-track">
+        <span class="ticker-item">Synchronizing live global cyber feeds...</span>
+      </div>
+    </div>
+    <div class="ticker-actions">
+      <span id="current-utc-clock" class="mono-badge">--:--:-- UTC</span>
+    </div>
+  </aside>
+
+  <!-- TOP HEADER / NAV -->
+  <header class="cyber-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="radar-logo-wrap">
+          <div class="radar-sweep"></div>
+          <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M12 8v4"/>
+            <circle cx="12" cy="16" r="1"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">CYBERPULSE <span class="version-tag">LIVE v2.4</span></div>
+          <div class="brand-subtitle">GLOBAL INTERNET & CYBERCRIME INTELLIGENCE RADAR</div>
+        </div>
+      </div>
+
+      <!-- Telemetry Status Pills -->
+      <div class="system-status-group">
+        <div class="status-indicator active" id="system-status-indicator" title="Live stream active">
+          <span class="status-led"></span>
+          <span class="status-text" id="status-feed-text">MONITORING 10 FEEDS</span>
+        </div>
+        
+        <!-- Audio Feedback Toggle -->
+        <button type="button" class="tool-btn icon-btn" id="audio-toggle-btn" title="Toggle cyber sound effects" aria-label="Toggle Audio Effects">
+          <svg id="audio-icon-muted" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+          <svg id="audio-icon-unmuted" class="icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span class="btn-text" id="audio-status-label">AUDIO OFF</span>
+        </button>
+
+        <!-- Manual Force Refresh -->
+        <button type="button" class="tool-btn primary-glow-btn" id="sync-now-btn" title="Force sync all sources">
+          <svg class="icon spin-on-sync" id="sync-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+          </svg>
+          <span class="btn-text">SYNC FEEDS</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN DASHBOARD CONTENT -->
+  <main class="cyber-main-wrap">
+    <!-- STATS COUNTER BAR -->
+    <section class="telemetry-stats-bar" aria-label="Cyber Threat Statistics">
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">TOTAL INDEXED INTEL</span>
+          <span class="stat-badge cyan">LIVE</span>
+        </div>
+        <div class="stat-value" id="stat-total-articles">---</div>
+        <div class="stat-subtext">Across global threat wires</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">CRITICAL THREATS</span>
+          <span class="stat-badge red">P1 ALERT</span>
+        </div>
+        <div class="stat-value text-red" id="stat-critical-count">---</div>
+        <div class="stat-subtext">CVSS 9.0+ & zero-days</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">CYBERCRIME & BREACHES</span>
+          <span class="stat-badge amber">CRIMINAL</span>
+        </div>
+        <div class="stat-value text-amber" id="stat-breach-count">---</div>
+        <div class="stat-subtext">Arrests, extortion & dumps</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">ACTIVE RADAR SOURCES</span>
+          <span class="stat-badge green">100% ONLINE</span>
+        </div>
+        <div class="stat-value text-green" id="stat-sources-count">10</div>
+        <div class="stat-subtext" id="stat-last-sync-time">Syncing...</div>
+      </div>
+    </section>
+
+    <!-- SEARCH & DISCOVERY TERMINAL -->
+    <section class="command-search-section">
+      <div class="search-box-card">
+        <div class="search-input-wrapper">
+          <svg class="search-lens-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="search" 
+            id="cyber-search-input" 
+            class="cyber-search-input" 
+            placeholder="Search news name, cyber crime, ransomware, CVE-2026, hacker gang, FBI, bank breach..."
+            autocomplete="off"
+            aria-label="Search internet cyber news"
+          >
+          <button type="button" id="clear-search-btn" class="clear-input-btn hidden" aria-label="Clear search text">&times;</button>
+          
+          <button type="button" id="internet-search-btn" class="internet-search-action-btn" title="Search all sources and live internet">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>SEARCH WEB</span>
+          </button>
+        </div>
+
+        <!-- Trending Query Quick Pills -->
+        <div class="quick-query-pills">
+          <span class="pills-label">TRENDING RADAR:</span>
+          <button type="button" class="query-pill" data-query="LockBit">LockBit</button>
+          <button type="button" class="query-pill" data-query="FBI hacker arrest">FBI Arrests</button>
+          <button type="button" class="query-pill" data-query="ransomware">Ransomware</button>
+          <button type="button" class="query-pill" data-query="zero-day">Zero-Day</button>
+          <button type="button" class="query-pill" data-query="data breach">Data Breaches</button>
+          <button type="button" class="query-pill" data-query="CISA emergency">CISA Alert</button>
+          <button type="button" class="query-pill" data-query="AI scam deepfake">AI Fraud</button>
+          <button type="button" class="query-pill" data-query="Telegram fraud">Telegram Scams</button>
+        </div>
+      </div>
+
+      <!-- CATEGORY TABS -->
+      <nav class="category-tabs-nav" aria-label="Filter by Incident Category">
+        <button type="button" class="cat-tab active" data-category="ALL">
+          <span class="cat-icon">🌐</span>
+          <span class="cat-name">All Intelligence</span>
+          <span class="cat-count" id="count-all">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-category="CYBERCRIME">
+          <span class="cat-icon">🚨</span>
+          <span class="cat-name">Cyber Crime & Arrests</span>
+          <span class="cat-count" id="count-cybercrime">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-category="RANSOMWARE">
+          <span class="cat-icon">☣️</span>
+          <span class="cat-name">Ransomware & Malware</span>
+          <span class="cat-count" id="count-ransomware">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-category="DATA_BREACH">
+          <span class="cat-icon">🔓</span>
+          <span class="cat-name">Data Breaches & Leaks</span>
+          <span class="cat-count" id="count-breaches">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-category="VULNERABILITY">
+          <span class="cat-icon">⚡</span>
+          <span class="cat-name">Zero-Days & CVEs</span>
+          <span class="cat-count" id="count-vulns">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-category="DEFENSE_ADVISORY">
+          <span class="cat-icon">🛡️</span>
+          <span class="cat-name">CISA & Advisories</span>
+          <span class="cat-count" id="count-cisa">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-category="AI_EMERGING">
+          <span class="cat-icon">🤖</span>
+          <span class="cat-name">AI & Emerging</span>
+          <span class="cat-count" id="count-ai">0</span>
+        </button>
+        <button type="button" class="cat-tab saved-tab" data-category="SAVED">
+          <span class="cat-icon">⭐</span>
+          <span class="cat-name">Bookmarked</span>
+          <span class="cat-count" id="count-saved">0</span>
+        </button>
+      </nav>
+
+      <!-- SECONDARY CONTROLS & FILTERS -->
+      <div class="secondary-controls-bar">
+        <div class="filters-left">
+          <!-- Severity Filter -->
+          <div class="control-select-wrap">
+            <label for="filter-severity" class="select-label">SEVERITY:</label>
+            <select id="filter-severity" class="cyber-select">
+              <option value="ALL">All Severities</option>
+              <option value="CRITICAL">🔴 Critical (P1)</option>
+              <option value="HIGH">🟠 High (P2)</option>
+              <option value="MEDIUM">🟡 Medium (P3)</option>
+              <option value="INFO">🔵 Informational</option>
+            </select>
+          </div>
+
+          <!-- Source Filter -->
+          <div class="control-select-wrap">
+            <label for="filter-source" class="select-label">FEED SOURCE:</label>
+            <select id="filter-source" class="cyber-select">
+              <option value="ALL">All Sources (10 Feeds)</option>
+              <option value="The Hacker News">The Hacker News</option>
+              <option value="BleepingComputer">BleepingComputer</option>
+              <option value="SecurityWeek">SecurityWeek</option>
+              <option value="CyberScoop">CyberScoop</option>
+              <option value="Dark Reading">Dark Reading</option>
+              <option value="Wired Security">Wired Security</option>
+              <option value="CISA Alerts">CISA Alerts</option>
+              <option value="Global Cybercrime Wire">Global Cybercrime Wire</option>
+              <option value="Cybercrime Busts & FBI Wire">Cybercrime Busts & FBI Wire</option>
+              <option value="Global Threat Watch">Global Threat Watch</option>
+            </select>
+          </div>
+
+          <!-- Sort Order -->
+          <div class="control-select-wrap">
+            <label for="sort-order" class="select-label">SORT:</label>
+            <select id="sort-order" class="cyber-select">
+              <option value="newest">Newest First</option>
+              <option value="severity">Threat Severity</option>
+              <option value="oldest">Oldest First</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filters-right">
+          <!-- Auto-Refresh Toggle -->
+          <div class="live-auto-refresh-wrap">
+            <label class="switch-wrap" title="Toggle automatic background feed polling">
+              <input type="checkbox" id="auto-refresh-toggle" checked>
+              <span class="slider"></span>
+            </label>
+            <span class="refresh-status-label">AUTO-STREAM</span>
+            <span class="countdown-badge" id="auto-refresh-countdown" title="Countdown to next feed refresh">60s</span>
+          </div>
+
+          <!-- View Mode Toggle -->
+          <div class="view-mode-toggle" role="group" aria-label="Layout View">
+            <button type="button" class="view-btn active" id="view-grid-btn" title="Grid View" aria-label="Grid layout">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </button>
+            <button type="button" class="view-btn" id="view-list-btn" title="Compact List View" aria-label="List layout">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH STATUS / ACTIVE FILTER BANNER -->
+    <div class="active-filter-indicator hidden" id="active-filter-banner">
+      <div class="filter-message-left">
+        <span class="indicator-icon">🔍</span>
+        <span id="active-filter-text">Showing search results</span>
+      </div>
+      <button type="button" id="reset-filter-btn" class="reset-filter-link">Clear Filter</button>
+    </div>
+
+    <!-- NEWS FEED CONTAINER -->
+    <section class="intel-grid-section" aria-label="Live Threat Intelligence Feed">
+      <!-- Loading Skeleton State -->
+      <div class="intel-grid" id="news-grid-container">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-intel-card hidden" id="empty-state-view">
+        <div class="empty-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M16 16s-1.5-2-4-2-4 2-4 2"></path>
+            <line x1="9" y1="9" x2="9.01" y2="9"></line>
+            <line x1="15" y1="9" x2="15.01" y2="9"></line>
+          </svg>
+        </div>
+        <h3 class="empty-title">NO THREAT INTELLIGENCE MATCHES YOUR CRITERIA</h3>
+        <p class="empty-desc" id="empty-state-desc">Try loosening search keywords or switch to "All Intelligence". You can also search live across the entire internet.</p>
+        <button type="button" class="primary-glow-btn" id="empty-search-web-btn">
+          <span>Search Entire Internet for This Query</span>
+        </button>
+      </div>
+
+      <!-- Pagination / Load More -->
+      <div class="pagination-footer-wrap" id="pagination-controls">
+        <button type="button" class="load-more-btn" id="load-more-btn">
+          <span>LOAD MORE INTEL ENTRIES</span>
+          <span class="entry-count-indicator" id="loaded-count-label">(50 / 250)</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ACCESSIBLE NATIVE DIALOG MODAL (DEEP INTEL READER) -->
+  <!-- Modern Web Guidance Compliant: native <dialog>, closedby="any", overscroll-behavior: contain -->
+  <dialog id="intel-dialog" closedby="any" aria-labelledby="dialog-title">
+    <div class="dialog-content-container">
+      <div class="dialog-header">
+        <div class="dialog-meta-top">
+          <span class="badge" id="modal-severity-badge">CRITICAL</span>
+          <span class="badge category-badge" id="modal-category-badge">CYBERCRIME</span>
+          <span class="modal-source-pill" id="modal-source-label">Source Name</span>
+          <span class="modal-time-label" id="modal-time-label">Just now</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close dialog" autofocus>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="dialog-body">
+        <h2 id="dialog-title" class="dialog-article-title">Incident Title</h2>
+
+        <div class="dialog-image-wrap hidden" id="modal-image-container">
+          <img src="" alt="Incident banner" id="modal-image" class="modal-banner-img" loading="lazy">
+        </div>
+
+        <div class="dialog-summary-box">
+          <h4 class="summary-heading">THREAT INTEL BRIEFING:</h4>
+          <p id="dialog-full-text" class="dialog-summary-paragraph"></p>
+        </div>
+
+        <div class="dialog-tags-section">
+          <span class="tags-label">DETECTED IOCs & TAGS:</span>
+          <div class="dialog-tags-list" id="modal-tags-container"></div>
+        </div>
+
+        <div class="dialog-telemetry-meta">
+          <div class="telemetry-item">
+            <span class="label">PUBLISHED:</span>
+            <span class="val" id="modal-exact-date">--</span>
+          </div>
+          <div class="telemetry-item">
+            <span class="label">INTEL ID:</span>
+            <span class="val mono" id="modal-intel-id">--</span>
+          </div>
+          <div class="telemetry-item">
+            <span class="label">SECTOR:</span>
+            <span class="val" id="modal-sector-label">Global Internet Infrastructure</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog-footer">
+        <div class="dialog-actions-left">
+          <button type="button" class="action-btn" id="modal-bookmark-btn">
+            <svg class="icon star-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span id="modal-bookmark-label">Bookmark</span>
+          </button>
+          
+          <button type="button" class="action-btn" id="modal-copy-link-btn" title="Copy article link to clipboard">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy Link</span>
+          </button>
+        </div>
+
+        <div class="dialog-actions-right">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="primary-glow-btn modal-external-link" id="modal-source-link">
+            <span>Read Original Report at Source</span>
+            <svg class="icon external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-hub" id="toast-hub" aria-live="polite"></div>
+
+  <!-- SCRIPTS -->
+  <script src="/js/sound.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
